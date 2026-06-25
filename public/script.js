@@ -50,17 +50,19 @@ fadeTargets.forEach(selector => {
   });
 });
 
-// Animate skill bars when visible
+// Animate skill bars when visible — delay ensures fade-in finishes first
 const barObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.w + '%';
+      entry.target.querySelectorAll('.bar-fill').forEach((bar, i) => {
+        setTimeout(() => {
+          bar.style.width = bar.dataset.w + '%';
+        }, 700 + i * 120);
       });
       barObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.1 });
 
 const barsSection = document.querySelector('.proficiency-bars');
 if (barsSection) barObserver.observe(barsSection);
